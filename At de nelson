@@ -1,0 +1,74 @@
+import tkinter as tk
+from tkinter import ttk
+from tkcalendar import Calendar, DateEntry
+
+class SchedulingApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Agendamento")
+
+    
+        self.event_frame = ttk.Frame(root, padding="10 10 10 10")
+        self.event_frame.grid(row=0, column=0, sticky=(tk.W, tk.E))
+
+        self.event_label = ttk.Label(self.event_frame, text="Nome do Evento:")
+        self.event_label.grid(row=0, column=0, sticky=tk.W)
+
+        self.event_name = ttk.Entry(self.event_frame, width=30)
+        self.event_name.grid(row=0, column=1, sticky=(tk.W, tk.E))
+
+      
+        self.date_frame = ttk.Frame(root, padding="10 10 10 10")
+        self.date_frame.grid(row=1, column=0, sticky=(tk.W, tk.E))
+
+        self.date_label = ttk.Label(self.date_frame, text="Data:")
+        self.date_label.grid(row=0, column=0, sticky=tk.W)
+
+        self.date_entry = DateEntry(self.date_frame, width=12, background='darkblue',
+                                    foreground='white', borderwidth=2, year=2023)
+        self.date_entry.grid(row=0, column=1, sticky=(tk.W, tk.E))
+
+       
+        self.time_frame = ttk.Frame(root, padding="10 10 10 10")
+        self.time_frame.grid(row=2, column=0, sticky=(tk.W, tk.E))
+
+        self.time_label = ttk.Label(self.time_frame, text="Hora (HH:MM):")
+        self.time_label.grid(row=0, column=0, sticky=tk.W)
+
+        self.time_hour = ttk.Entry(self.time_frame, width=3)
+        self.time_hour.grid(row=0, column=1, sticky=tk.W)
+
+        self.time_colon = ttk.Label(self.time_frame, text=":")
+        self.time_colon.grid(row=0, column=2, sticky=tk.W)
+
+        self.time_minute = ttk.Entry(self.time_frame, width=3)
+        self.time_minute.grid(row=0, column=3, sticky=tk.W)
+
+       
+        self.schedule_button = ttk.Button(root, text="Agendar", command=self.schedule)
+        self.schedule_button.grid(row=3, column=0, sticky=(tk.W, tk.E), pady=10)
+
+       
+        self.event_list = tk.Listbox(root, height=10, width=50)
+        self.event_list.grid(row=4, column=0, sticky=(tk.W, tk.E), pady=10)
+
+    def schedule(self):
+        event_name = self.event_name.get()
+        event_date = self.date_entry.get()
+        event_hour = self.time_hour.get()
+        event_minute = self.time_minute.get()
+
+        event_time = f"{event_hour}:{event_minute}"
+        scheduled_event = f"{event_name} - {event_date} às {event_time}"
+
+        self.event_list.insert(tk.END, scheduled_event)
+
+        
+        self.event_name.delete(0, tk.END)
+        self.time_hour.delete(0, tk.END)
+        self.time_minute.delete(0, tk.END)
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = SchedulingApp(root)
+    root.mainloop()
